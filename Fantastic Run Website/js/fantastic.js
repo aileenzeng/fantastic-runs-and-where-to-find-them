@@ -1,23 +1,11 @@
-/*
- * Name: Min-Hsuan (Sam) Lee
- * TA: Nicole Riley
- * Section: CSE 154 AG
- * Date: 05.23.18
- *
- * This is the bestreads.js for "Bestreads" webpage. It serves as a JavaScript
- * file for bestreads.html. It includes information of the behaviors of the
- * website. It populates the all-book view with book titles and covers from the
- * API and single-book view with a chosen book title, cover image, author,
- * rating, description, reviews.
- */
-
 /* global fetch */
 
 "use strict";
 
 (function() {
-   /** Base url of the bestreads book api */
-   const BASEURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial";
+   /** Base url of the bestreads Google Maps Platform api */
+   const BASEURL = "https://maps.googleapis.com/maps/api/";
+   const DIST_MATRIX = "distancematrix/json?units=imperial";
    const KEY = "&key=AIzaSyBFzjw02fb0JGC8aaks2kKqENiwtftQJS8";
 
    window.onload = function() {
@@ -27,8 +15,8 @@
    function request() {
       let origins = "&origins=Seattle+City,WA";
       let destinations = "&destinations=Seattle+City,WA"; 
-      let url = BASEURL + origins + destinations + KEY;
-      fetch(url/*, {credentials: 'include'}*/)
+      let url = BASEURL + DIST_MATRIX + origins + destinations + KEY;
+      fetch(url)
          .then(checkStatus)
 			.then(JSON.parse)
 			.then(populate)
