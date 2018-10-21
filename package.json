@@ -1,0 +1,28 @@
+{
+  "name": "fantastic-runs",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.4",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
+    "pg-promise": "^8.5.1",
+    "sequelize": "^4.41.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aileenzeng/fantastic-runs-and-where-to-find-them.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aileenzeng/fantastic-runs-and-where-to-find-them/issues"
+  },
+  "homepage": "https://github.com/aileenzeng/fantastic-runs-and-where-to-find-them#readme"
+}
