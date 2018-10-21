@@ -17,150 +17,32 @@
 
 (function() {
    /** Base url of the bestreads book api */
-   const BASEURL = "bestreads.php";
+   const BASEURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial";
+   const KEY = "&key=AIzaSyBFzjw02fb0JGC8aaks2kKqENiwtftQJS8";
 
-   /**
-    * Initializes the page when the onload event happens, populates the 
-    * page with all the books, and enables the Home button.
-    */
    window.onload = function() {
-      populateBooks();
-      $("back").onclick = populateBooks;
+      request();
    };
 
-   /**
-    * Populates the page with all the books from the API.
-    */
-   function populateBooks() {
-      $("error-message").classList.add("hidden");
-      let url = BASEURL + "?mode=books";
-      fetch(url, {credentials: 'include'})
+   function request() {
+      let origins = "&origins=Seattle+City,WA";
+      let destinations = "&destinations=Seattle+City,WA"; 
+      let url = BASEURL + origins + destinations + KEY;
+      fetch(url/*, {credentials: 'include'}*/)
          .then(checkStatus)
 			.then(JSON.parse)
 			.then(populate)
 			.catch(handleError);
    }
-    
-   /**
-    * Populates the page with all the books from the API with book titles and
-    * cover images.
-    * @param {Array} responseText from the api with information of all the
-    * books.
-    */
+
    function populate(responseText) {
-      let books = responseText["books"];
-      for (let i = 0; i < books.length; i++) {
-         let book = document.createElement("div");
-        	let title = books[i]["title"];
-        	let titleTag = document.createElement("p");
-        	titleTag.innerText = title;
-        	let cover = document.createElement("img");
-        	let folder = books[i]["folder"];
-        	cover.src = "books/" + folder + "/cover.jpg";
-        	cover.alt = title;
-        	book.id = folder;
-        	book.addEventListener("click", showBook);
-        	book.appendChild(titleTag);
-        	book.appendChild(cover);
-        	$("allbooks").appendChild(book);
-      }
-      $("singlebook").classList.add("hidden");
-   }
-
-   /**
-    * Shows a single-book view for a chosen book with its title, author, 
-    * rating, cover image, description, and reviews.
-    */
-   function showBook() {
-   	$("allbooks").innerText = "";
-   	$("singlebook").classList.remove("hidden");
-   	let title = this.id;
-   	$("cover").src = this.childNodes[1].src;
-   	showInfo(title);
-   	showDescription(title);
-   	showReviews(title);
-   }
- 
-   /**
-    * Shows a single-book view for a chosen book with its title, author, and
-    * star rating, based on the given title.
-    * @param {String} title of the chosen book.
-    */
-   function showInfo(title) {
-      let url = BASEURL + "?mode=info&title=" + title;
-      fetch(url, {credentials: 'include'})
-			.then(checkStatus)
-			.then(JSON.parse)
-			.then(populateInfo)
-			.catch(handleError);
-   }
-
-   /**
-    * Populates the single-book view with chosen book's title, author, and 
-    * star rating.
-    * @param {Array} responseText from the api with the information of the
-    * chosen book.
-    */
-   function populateInfo(responseText) {
-      $("title").innerText = responseText["title"];
-    	$("author").innerText = responseText["author"];
-    	$("stars").innerText = responseText["stars"];
-   }
- 
-   /**
-    * Shows a single-book view for a chosen book with its description, based
-    * on the given title.
-    * @param {String} title of the chosen book.
-    */
-   function showDescription(title) {
-      let url = BASEURL + "?mode=description&title=" + title;
-      fetch(url, {credentials: 'include'})
-			.then(checkStatus)
-			.then(populateDescription)
-			.catch(handleError);
-   }
- 
-   /**
-    * Populates the single-book view with chosen book's description.
-    * @param {Plain Text} responseText from the api with the description of 
-    * the chosen book.
-    */
-   function populateDescription(responseText) {
-   	$("description").innerText = responseText;
-   }
- 
-   /**
-    * Shows a single-book view for a chosen book with its review(s), including
-    * reviewer(s), score rating(s), and review text(s).
-    * @param {String} title of the chosen book.
-    */
-   function showReviews(title) {
-   	let url = BASEURL + "?mode=reviews&title=" + title;
-      fetch(url, {credentials: 'include'})
-			.then(checkStatus)
-			.then(JSON.parse)
-			.then(populateReviews)
-			.catch(handleError);
-   }
- 
-   /**
-    * Populates the single-book view with chosen book's review(s).
-    * @param {Array} responseText from the api with the review(s) of 
-    * the chosen book.
-    */
-   function populateReviews(responseText) {
-   	$("reviews").innerText = "";
-   	for (let i = 0; i < responseText.length; i++) {
-         let score = document.createElement("span");
-    		score.innerText = responseText[i]["score"];
-    		let title = document.createElement("h3");
-    		title.innerText = responseText[i]["name"] + " ";
-    		title.appendChild(score);
-    		let review = document.createElement("p");
-    		review.innerText = responseText[i]["text"];
-    		$("reviews").appendChild(title);
-    		$("reviews").appendChild(review);
-    	}
+      let destAddrArry = responseText["destination_addresses"];
+      let originAddrArry = responseText["origin_addresses"];
+      let elements = Object.values(responseText["rows"][0])[0][0];
+      let distance = Object.values(elements["distance"]);
+      let duration = Object.values(elements["duration"]);
+      $("test").innerText = destAddrArry.toString() + "\n" + originAddrArry.toString() + "\n" + 
+          distance + "\n" + duration;
    }
 
    /**
@@ -182,8 +64,7 @@
 	 * @param {String} error message.
 	 */
    function handleError(errorMsg) {
-      $("error-message").classList.remove("hidden");
-      $("error-text").innerText = errorMsg;
+      alert(errorMsg);
    }
     
    /**
