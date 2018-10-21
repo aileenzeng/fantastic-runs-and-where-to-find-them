@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
 const routesController = require('../controllers').routes;
 
 /* Home page */
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+router.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/views/index.html'), { title: 'Express' });
 });
 
 /* Routes */
