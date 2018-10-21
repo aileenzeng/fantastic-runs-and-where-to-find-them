@@ -1,3 +1,5 @@
+# Setup
+## Optional
 * Download postgres
     * If you have brew, you can type
 ```
@@ -9,5 +11,8 @@ $ brew install postgres
 createdb fantastic-runs
 ```
 
+## Local server
 * Download `node`
     * Run `npm install` in the home directory
+    
+* Run `npm start` to start app, (loads at `0.0.0.0:3000`).

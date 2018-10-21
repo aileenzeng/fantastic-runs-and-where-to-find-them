@@ -1,15 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var path = require('path');
 
-const routesController = require('../controllers').routes;
+/* Add controllers here */
+const indexController = require('../controllers/indexController');
+const routesController = require('../controllers/routeController');
+const intersectionController = require('../controllers/intersectionController');
 
 /* Home page */
-router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/views/index.html'), { title: 'Express' });
-});
+router.get('/', indexController.index);
 
 /* Routes */
-router.post('/api/routes', routesController.add);
+router.get('/api/routes/add', routesController.add);
+router.get('/api/routes/get', routesController.get);
+router.get('/api/routes/delete', routesController.delete);
 
 module.exports = router;
