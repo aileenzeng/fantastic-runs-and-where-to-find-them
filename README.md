@@ -1,5 +1,5 @@
 # Setup
-## Optional
+## Optional (because I haven't gotten it working)
 * Download postgres
     * If you have brew, you can type
 ```
@@ -8,7 +8,7 @@ $ brew install postgres
 ```
 * Run the following commands
 ```
-createdb fantastic-runs
+psql fantastic_runs -f init.sql
 ```
 
 ## Local server

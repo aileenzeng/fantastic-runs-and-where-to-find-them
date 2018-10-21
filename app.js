@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./conf/routes');
 // var usersRouter = require('./routes/users');
 
 var app = express();
@@ -18,6 +18,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// database setup
+var promise = require('bluebird');
+var options = {
+    // Initialization Options
+    promiseLib: promise
+};
+
+var pgp = require('pg-promise')(options);
+var connectionString = 'postgres://localhost:5432/puppies';
+var db = pgp(connectionString);
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);

@@ -10,8 +10,8 @@ const intersectionController = require('../controllers/intersectionController');
 router.get('/', indexController.index);
 
 /* Routes */
-router.get('/api/routes/add', routesController.add);
-router.get('/api/routes/get', routesController.get);
-router.get('/api/routes/delete', routesController.delete);
+router.get('/api/routes/add/:int', routesController.add);
+router.get('/api/routes/get/:int', routesController.get);
+router.get('/api/routes/delete/:int', routesController.delete);
 
 module.exports = router;
